@@ -12,9 +12,6 @@ import path     from 'path';
 import merge    from 'merge-stream';
 import beep     from 'beepbeep';
 
-// node v10 fix
-import 'globalthis/auto';
-
 const $ = plugins();
 
 var dartSass = require('gulp-sass')(require('sass'));

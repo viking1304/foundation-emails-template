@@ -57,8 +57,7 @@
     "rimraf": "^3.0.2",
     "sass": "^1.49.9",
     "siphon-media-query": "^1.0.0",
-    "yargs": "^16.2.0",
-    "globalthis": "^1.0.3"
+    "yargs": "^16.2.0"
   },
   "babel": {
     "presets": [
