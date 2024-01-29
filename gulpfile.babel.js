@@ -114,8 +114,13 @@ function watch() {
 
 // Inlines CSS into HTML, adds media query CSS into the <style> tag of the email, and compresses the HTML
 function inliner(css) {
+  const rawStartBlock = '/* uncss:ignore start */';
+  const rawEndBlock = '/* uncss:ignore end */';
   var css = fs.readFileSync(css).toString();
   var mqCss = siphon(css);
+  var rawStart = css.indexOf(rawStartBlock);
+  var rawEnd = css.indexOf(rawEndBlock);
+  var rawCss = rawStart > -1 && rawEnd > -1 ? css.substring(rawStart + rawStartBlock.length, rawEnd) : "";
 
   var pipe = lazypipe()
     .pipe($.inlineCss, {
@@ -124,7 +129,7 @@ function inliner(css) {
       preserveMediaQueries: true,
       removeLinkTags: false
     })
-    .pipe($.replace, '<!-- <style> -->', `<style>${mqCss}</style>`)
+    .pipe($.replace, '<!-- <style> -->', `<style>${mqCss}${rawCss}</style>`)
     .pipe($.replace, '<link rel="stylesheet" type="text/css" href="css/app.css">', '')
     .pipe($.htmlmin, {
       collapseWhitespace: true,

@@ -57,3 +57,7 @@ table.button.google table td {
 .wrapper.secondary {
   background: #f3f3f3;
 }
+
+// styles that should not be processed by uncss
+/* uncss:ignore start */
+/* uncss:ignore end */
