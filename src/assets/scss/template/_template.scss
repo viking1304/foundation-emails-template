@@ -5,7 +5,7 @@
 body,
 html, 
 .body {
-  background: #f3f3f3 !important;
+  background: $light-gray;
 }
 
 .container.header {
@@ -13,12 +13,12 @@ html,
 }
 
 .body-drip {
-  border-top: 8px solid #663399;
+  border-top: 8px solid $primary-color;
 }
 
 // Full Width Headers
 .header {
-  background: #8a8a8a;
+  background: $medium-gray;
 }
 
 .header .columns {
@@ -35,25 +35,108 @@ html,
 }
 
 .header .container {
-  background: transparent;
+  background: transparent !important;
 }
+
+// Link Styles
+$anchor-color: $primary-color;
+$anchor-color-visited: $anchor-color;
+$anchor-color-hover: darken($primary-color, 10%);
+$anchor-color-active: $anchor-color-hover;
 
 // Social Media
 table.button.facebook table td {
-  background: #3B5998 !important;
-  border-color: #3B5998;
+  background: #3b5998;
+  border-color: #3b5998;
 }
 
 table.button.twitter table td {
-  background: #1daced !important;
+  background: #1daced;
   border-color: #1daced;
 }
 
 table.button.google table td {
-  background: #DB4A39 !important;
-  border-color: #DB4A39;
+  background: #db4a39;
+  border-color: #db4a39;
 }
 
 .wrapper.secondary {
-  background: #f3f3f3;
+  background: darken($light-gray,4%);
 }
+
+th.callout-inner p {
+  margin-bottom: 0;
+}
+
+@media only screen and (max-width: #{$global-breakpoint}) {
+  .header p {
+    padding-top: 9px !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+// Dark Mode
+@media (prefers-color-scheme: dark ) {
+  body, html, .body {
+    background-color: $dark-background !important;
+  }
+
+  body,
+  table.body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  td,
+  th {
+    color: $white !important;
+  }
+
+  .container {
+    background-color: $dark-gray !important;
+  }
+
+  .header {
+    background-color: $dark-background !important;
+  }
+
+  .wrapper.secondary {
+    background-color: darken($dark-gray, 3%) !important;
+  }
+
+  table.button.twitter table td {
+    background-color: #00629c !important;
+    border-color: #00629c !important;
+  }
+
+  th.callout-inner.primary {
+    background-color: $primary-color !important;
+    border-color: darken($primary-color, 10%) !important;
+  }
+
+  th.callout-inner.primary a {
+    color: $white !important;
+    text-decoration: underline !important;
+  }
+
+  th.callout-inner.secondary {
+    background-color: $dark-background !important;
+    border-color: lighten($dark-background, 5%) !important;
+  }
+}
+
+// styles that should not be processed by uncss
+// put [data-ogsb]/[data-ogsc] and u+ and div > u + prefixed styles here
+/* uncss:ignore start */
+[data-ogsb] table.twitter table td {
+  background-color: #00629c !important;
+  border-color: #00629c !important;
+}
+
+div > u + div .body .header {
+  background-color: #666 !important;
+}
+/* uncss:ignore end */

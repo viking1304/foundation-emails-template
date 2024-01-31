@@ -1,5 +1,6 @@
 import gulp     from 'gulp';
 import plugins  from 'gulp-load-plugins';
+import uncss    from 'postcss-uncss';
 import browser  from 'browser-sync';
 import rimraf   from 'rimraf';
 import panini   from 'panini';
@@ -11,9 +12,6 @@ import siphon   from 'siphon-media-query';
 import path     from 'path';
 import merge    from 'merge-stream';
 import beep     from 'beepbeep';
-
-// node v10 fix
-import 'globalthis/auto';
 
 const $ = plugins();
 
@@ -79,10 +77,7 @@ function sass() {
     .pipe(dartSass.sync({
         includePaths: ['node_modules/foundation-emails/scss']
     }).on('error', dartSass.logError))
-    .pipe($.if(PRODUCTION, $.uncss(
-      {
-        html: ['dist/**/*.html']
-      })))
+    .pipe($.if(PRODUCTION, $.postcss([uncss({ html: ['dist/**/*.html'] })])))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest('dist/css'));
 }
@@ -119,8 +114,13 @@ function watch() {
 
 // Inlines CSS into HTML, adds media query CSS into the <style> tag of the email, and compresses the HTML
 function inliner(css) {
+  const rawStartBlock = '/* uncss:ignore start */';
+  const rawEndBlock = '/* uncss:ignore end */';
   var css = fs.readFileSync(css).toString();
   var mqCss = siphon(css);
+  var rawStart = css.indexOf(rawStartBlock);
+  var rawEnd = css.indexOf(rawEndBlock);
+  var rawCss = rawStart > -1 && rawEnd > -1 ? css.substring(rawStart + rawStartBlock.length, rawEnd) : "";
 
   var pipe = lazypipe()
     .pipe($.inlineCss, {
@@ -129,11 +129,11 @@ function inliner(css) {
       preserveMediaQueries: true,
       removeLinkTags: false
     })
-    .pipe($.replace, '<!-- <style> -->', `<style>${mqCss}</style>`)
+    .pipe($.replace, '<!-- <style> -->', `<style>${mqCss}${rawCss}</style>`)
     .pipe($.replace, '<link rel="stylesheet" type="text/css" href="css/app.css">', '')
     .pipe($.htmlmin, {
       collapseWhitespace: true,
-      minifyCSS: true
+      minifyCSS: false
     });
 
   return pipe();

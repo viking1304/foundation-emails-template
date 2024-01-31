@@ -1,10 +1,10 @@
-# Foundation for Emails Template
+# Foundation for Emails Template - UNOFFICIAL VERSION
 
-[![devDependency Status](https://david-dm.org/zurb/foundation-emails-template/dev-status.svg)](https://david-dm.org/zurb/foundation-emails-template#info=devDependencies)
+### Updated on January 31st 2024
 
-**Please open all issues with this template on the main [Foundation for Emails](http://github.com/zurb/foundation-emails/issues) repo.**
+**Please open all issues with this `UNOFFICIAL VERSION` [here](https://github.com/viking1304/foundation-emails-template/issues) instead of the main Foundation for Emails repo.**
 
-This is the official starter project for [Foundation for Emails](http://foundation.zurb.com/emails), a framework for creating responsive HTML devices that work in any email client. It has a Gulp-powered build system with these features:
+This is the unofficial starter project for [Foundation for Emails](https://get.foundation/emails.html), a framework for creating responsive HTML devices that work in any email client. It has a Gulp-powered build system with these features:
 
 - Handlebars HTML templates with [Panini](http://github.com/zurb/panini)
 - Simplified HTML email syntax with [Inky](http://github.com/zurb/inky)
@@ -13,32 +13,34 @@ This is the official starter project for [Foundation for Emails](http://foundati
 - Built-in BrowserSync server
 - Full email inlining process
 
+## Reasons I made this unofficial version
+
+Since my [pull request](https://github.com/foundation/foundation-emails-template/pulls) are not merged to the main repo after almost a year, I decided to continue my work independently of the main repo.
+
+## What's new
+
+- support for newer node versions
+- basic support for [data-ogsb]/[data-ogsc] and u+ and div > u + prefixed styles
+- basic dark mode support
+- temporary removed css minification, to fix issues in some mail clients
+- updated libraries
+
 ## Installation
 
-To use this template, your computer needs [Node.js](https://nodejs.org/en/) 0.12 or greater. The template can be installed with the Foundation CLI, or downloaded and set up manually.
+To use this template, your computer needs [Node.js](https://nodejs.org/en/).    Recommended node version is `v18`, but some other node versions might work too.
+
+*Node v10 support is totally dropped!*
 
 ### Using the CLI
 
-Install the Foundation CLI with this command:
-
-```bash
-npm install foundation-cli --global
-```
-
-Use this command to set up a blank Foundation for Emails project:
-
-```bash
-foundation new --framework emails
-```
-
-The CLI will prompt you to give your project a name. The template will be downloaded into a folder with this name.
+`foundation-cli` is deprecated, so do not try to use it.
 
 ### Manual Setup
 
 To manually set up the template, first download it with Git:
 
 ```bash
-git clone https://github.com/zurb/foundation-emails-template projectname
+git clone https://github.com/viking1304/foundation-emails-template projectname
 ```
 
 Then open the folder in your command line, and install the needed dependencies:
@@ -128,3 +130,23 @@ For a full list of Litmus' supported test clients(applications) see their [clien
 
 **Caution:** AWS Service Fees will result, however, are usually very low do to minimal traffic. Use at your own discretion.
 
+## Outlook and Google specific styles
+
+All Outlook and Google specific styles should be in the postcss-uncss ignore block or they will be removed as unused CSS.
+
+```
+// styles that should not be processed by uncss
+// put [data-ogsb]/[data-ogsc] and u+ and div > u + prefixed styles here
+/* uncss:ignore start */
+[data-ogsb] table.twitter table td {
+  background-color: #00629c !important;
+  border-color: #00629c !important;
+}
+
+div > u + div .body .header {
+  background-color: #666 !important;
+}
+/* uncss:ignore end */
+```
+
+**Known issues:** Do not use media queries in this block or they will appear twice in your HTML file.
